@@ -81,7 +81,7 @@ class BamPostService(Service):
             raise ValueError("sorted bam file name %s must end with .bam" %
                              sortedBamFile)
         sortedPrefix = sortedBamFile[0:-4]
-        cmd = 'samtools --version'
+        cmd = 'samtools --version||true'
         _samtoolsversion = ["0","1","19"]
         try:
             _out, _code, _msg = Execute(self.name, cmd)
