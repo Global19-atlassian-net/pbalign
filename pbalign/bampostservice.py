@@ -59,7 +59,7 @@ class BamPostService(Service):
     def cmd(self):
         return ""
 
-    def __init__(self, filenames):
+    def __init__(self, filenames, nproc=1):
         """Initialize a BamPostService object.
             Input - unsortedBamFile: a filtered, unsorted bam file
                     refFasta : a reference fasta file
@@ -73,8 +73,9 @@ class BamPostService(Service):
         self.outBamFile = filenames.outBamFileName
         self.outBaiFile = filenames.outBaiFileName
         self.outPbiFile = filenames.outPbiFileName
+        self.nproc = int(nproc)
 
-    def _sortbam(self, unsortedBamFile, sortedBamFile):
+    def _sortbam(self, unsortedBamFile, sortedBamFile, nproc):
         """Sort unsortedBamFile and output sortedBamFile."""
         if not sortedBamFile.endswith(".bam"):
             raise ValueError("sorted bam file name %s must end with .bam" %
@@ -92,11 +93,11 @@ class BamPostService(Service):
             pass
         _stvmajor = int(_samtoolsversion[0])
         if _stvmajor >= 1:
-            cmd = 'samtools sort -m 4G -o {sortedBamFile} {unsortedBamFile}'.format(
-                sortedBamFile=sortedBamFile, unsortedBamFile=unsortedBamFile)
+            cmd = 'samtools sort --threads {t} -m 4G -o {sortedBamFile} {unsortedBamFile}'.format(
+                t=nproc, sortedBamFile=sortedBamFile, unsortedBamFile=unsortedBamFile)
         else:
-            cmd = 'samtools sort -m 4G {unsortedBamFile} {prefix}'.format(
-                unsortedBamFile=unsortedBamFile, prefix=sortedPrefix)
+            cmd = 'samtools sort --threads {t} -m 4G {unsortedBamFile} {prefix}'.format(
+                t=nproc, unsortedBamFile=unsortedBamFile, prefix=sortedPrefix)
         Execute(self.name, cmd)
 
     def _makebai(self, sortedBamFile, outBaiFile):
@@ -131,7 +132,8 @@ class BamPostService(Service):
         """ Run the BAM post-processing service. """
         logging.info(self.name + ": Sort and build index for a bam file.")
         self._sortbam(unsortedBamFile=self.unsortedBamFile,
-                      sortedBamFile=self.outBamFile)
+                      sortedBamFile=self.outBamFile,
+                      nproc=self.nproc)
         self._makebai(sortedBamFile=self.outBamFile,
                       outBaiFile=self.outBaiFile)
         self._makepbi(sortedBamFile=self.outBamFile)

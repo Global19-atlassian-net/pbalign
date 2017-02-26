@@ -259,7 +259,7 @@ class PBAlignRunner(PBToolRunner):
         # Sort bam before output
         if outFormat in [FILE_FORMATS.BAM, FILE_FORMATS.XML]:
             # Sort/make index for BAM output.
-            BamPostService(self.fileNames).run()
+            BamPostService(filenames=self.fileNames, nproc=self.args.nproc).run()
 
         # Output all hits in SAM, BAM.
         self._output(
