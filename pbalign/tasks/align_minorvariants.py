@@ -20,7 +20,7 @@ __version__ = "0.1"
 
 class Constants(object):
     TOOL_ID = "pbalign.tasks.align_minorvariants"
-    DRIVER_EXE = "pbalign.tasks.align_minorvariants --resolved-tool-contract "
+    DRIVER_EXE = "python -m pbalign.tasks.align_minorvariants --resolved-tool-contract "
 
 
 def get_parser():
@@ -55,7 +55,7 @@ def run_rtc(rtc):
         "--nproc", str(rtc.task.nproc),
         "--maxMatch", "15",
         "--algorithmOptions",
-        '--scoreMatrix "-1 4 4 4 6 4 -1 4 4 6 4 4 -1 4 6 4 4 4 -1 6 6 6 6 6 6"',
+        '--placeGapConsistently --scoreMatrix "-1 4 4 4 6 4 -1 4 4 6 4 4 -1 4 6 4 4 4 -1 6 6 6 6 6 6"',
         "--tmpDir", rtc.task.tmpdir_resources[0].path,
         "--log-level", rtc.task.log_level
     ]
