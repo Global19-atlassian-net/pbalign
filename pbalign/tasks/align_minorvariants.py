@@ -54,9 +54,8 @@ def run_rtc(rtc):
         rtc.task.output_files[0],
         "--nproc", str(rtc.task.nproc),
         "--maxMatch", "15",
-        "--placeGapConsistently",
         "--algorithmOptions",
-        '--scoreMatrix "-1 4 4 4 6 4 -1 4 4 6 4 4 -1 4 6 4 4 4 -1 6 6 6 6 6 6"',
+        '--placeGapConsistently --scoreMatrix "-1 4 4 4 6 4 -1 4 4 6 4 4 -1 4 6 4 4 4 -1 6 6 6 6 6 6"',
         "--tmpDir", rtc.task.tmpdir_resources[0].path,
         "--log-level", rtc.task.log_level
     ]
