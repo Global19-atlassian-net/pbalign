@@ -20,7 +20,7 @@ __version__ = "0.1"
 
 class Constants(object):
     TOOL_ID = "pbalign.tasks.align_minorvariants"
-    DRIVER_EXE = "pbalign.tasks.align_minorvariants --resolved-tool-contract "
+    DRIVER_EXE = "python -m pbalign.tasks.align_minorvariants --resolved-tool-contract "
 
 
 def get_parser():
