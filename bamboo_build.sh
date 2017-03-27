@@ -21,15 +21,12 @@ tar zxf $BLASR -C $HAVE_BLASR
 
 type module >& /dev/null|| . /mnt/software/Modules/current/init/bash
 module load gcc/4.9.2 git/2.8.3
-#module load ccache/3.2.3
+module load ccache/3.2.3
 
 cat > pitchfork/settings.mk << EOF
 PREFIX            = $PWD/deployment
-SCCACHE_DIR       = /mnt/secondary/Share/tmp/bamboo.sccache
 DISTFILES         = $PWD/.distfiles
-CC                = /mnt/software/s/sccache/0.1.0/compilers/gcc
-CXX               = /mnt/software/s/sccache/0.1.0/compilers/g++
-FC                = /mnt/software/s/sccache/0.1.0/compilers/gfortran
+CCACHE_DIR        = /mnt/secondary/Share/tmp/bamboo.mobs.ccachedir
 # from Herb
 HAVE_OPENSSL      = /mnt/software/o/openssl/1.0.2a
 HAVE_PYTHON       = /mnt/software/p/python/2.7.9/bin/python
