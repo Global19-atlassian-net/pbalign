@@ -45,6 +45,19 @@ class TestPbalignCCS(pbcommand.testkit.PbTestApp):
                         type(ds_out).__name__)
 
 
+class TestPbalignMinorVariants(pbcommand.testkit.PbTestApp):
+    DRIVER_BASE = "python -m pbalign.tasks.align_minorvariants"
+    INPUT_FILES = [
+        pbtestdata.get_file("rsii-ccs"),
+        pbtestdata.get_file("lambdaNEB")
+    ]
+
+    def run_after(self, rtc, output_dir):
+        ds_out = openDataSet(rtc.task.output_files[0])
+        self.assertTrue(isinstance(ds_out, ConsensusAlignmentSet),
+                        type(ds_out).__name__)
+
+
 HAVE_BAMTOOLS = False
 try:
     with tempfile.TemporaryFile() as O, \
