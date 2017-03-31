@@ -61,7 +61,7 @@ def Execute(name, cmd):
         errMsg : the error message
     """
     logging.info(name + ": Call \"{0}\"".format(cmd))
-    output, errCode, errMsg = backticks(cmd)
+    output, errCode, errMsg = backticks(cmd, merge_stderr=False)
     if errCode != 0:
         errMsg = name + " returned a non-zero exit status. " + errMsg
         logging.error(errMsg)
