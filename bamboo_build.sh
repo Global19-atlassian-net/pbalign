@@ -36,6 +36,8 @@ $PIP install --user \
   cram
 ln -sfn ../data repos/PacBioTestData/pbtestdata/data
 $PIP install --user -e repos/PacBioTestData
+$PIP install --user -e repos/pbcore
+$PIP install --user -e repos/pbcommand
 $PIP install --user -e repos/pbalign
 rm -rf test-reports
 mkdir test-reports
