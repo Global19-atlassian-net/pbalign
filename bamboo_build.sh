@@ -37,6 +37,8 @@ $PIP install --user \
 ln -sfn ../data repos/PacBioTestData/pbtestdata/data
 $PIP install --user -e repos/PacBioTestData
 $PIP install --user -e repos/pbalign
+$PIP install --user -e repos/pbcore
+$PIP install --user -e repos/pbcommand
 rm -rf test-reports
 mkdir test-reports
 module load bamtools/2.4.1
