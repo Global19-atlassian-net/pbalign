@@ -7,7 +7,7 @@ PBBAM=`/bin/ls -t tarballs/pbbam*tgz|head -1`
 BLASR=`/bin/ls -t tarballs/blasr-*tgz|head -1`
 BLASR_LIBCPP=`/bin/ls -t tarballs/blasr_libcpp*tgz|head -1`
 
-NX3PBASEURL=http://nexus.pacificbiosciences.com/repository/maven-thirdparty/gcc-4.9.2
+NX3PBASEURL=http://nexus/repository/unsupported/gcc-4.9.2
 export PATH=$PWD/build/bin:/mnt/software/a/anaconda2/4.2.0/bin:$PATH
 #export LD_LIBRARY_PATH=$PWD/build/lib:$LD_LIBRARY_PATH
 export PYTHONUSERBASE=$PWD/build
