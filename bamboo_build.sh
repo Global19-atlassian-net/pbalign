@@ -1,58 +1,54 @@
-#!/bin/bash -e
+#!/bin/bash -xe
+
+rm -rf prebuilts build
+test -d .pip/wheels && find .pip/wheels -type f ! -name '*none-any.whl' -print -delete || true
 
 PBBAM=`/bin/ls -t tarballs/pbbam*tgz|head -1`
-curl -s -L http://nexus/repository/maven-snapshots/pacbio/sat/htslib/htslib-1.1-SNAPSHOT.tgz -o tarballs/htslib-1.1-SNAPSHOT.tgz
-HTSLIB=`/bin/ls -t tarballs/htslib-*.tgz|head -1`
 BLASR=`/bin/ls -t tarballs/blasr-*tgz|head -1`
 BLASR_LIBCPP=`/bin/ls -t tarballs/blasr_libcpp*tgz|head -1`
-HAVE_HTSLIB=$PWD/prebuilts/`basename $HTSLIB .tgz`
-HAVE_BLASR_LIBCPP=$PWD/prebuilts/`basename $BLASR_LIBCPP .tgz`
-HAVE_BLASR=$PWD/prebuilts/`basename $BLASR .tgz`
-HAVE_PBBAM=$PWD/prebuilts/`basename $PBBAM .tgz`
-mkdir -p \
-         $HAVE_HTSLIB \
-         $HAVE_BLASR_LIBCPP \
-         $HAVE_BLASR \
-         $HAVE_PBBAM
-tar zxf $HTSLIB -C $HAVE_HTSLIB
-#tar zxf $PBBAM -C prebuilts
-tar zxf $PBBAM -C $HAVE_PBBAM
-tar zxf $BLASR_LIBCPP -C $HAVE_BLASR_LIBCPP
-tar zxf $BLASR -C $HAVE_BLASR
 
-type module >& /dev/null|| . /mnt/software/Modules/current/init/bash
-module load gcc/4.9.2 git/2.8.3
+NX3PBASEURL=http://nexus/repository/unsupported/pitchfork/gcc-4.9.2
+export PATH=$PWD/build/bin:/mnt/software/a/anaconda2/4.2.0/bin:$PATH
+#export LD_LIBRARY_PATH=$PWD/build/lib:$LD_LIBRARY_PATH
+export PYTHONUSERBASE=$PWD/build
+export CFLAGS="-I/mnt/software/a/anaconda2/4.2.0/include"
+PIP="pip --cache-dir=$bamboo_build_working_directory/.pip"
+
+mkdir -p build/bin build/lib build/include build/share
+tar zxf $PBBAM -C build
+tar zxf $BLASR_LIBCPP -C build
+tar zxf $BLASR -C build
+curl -s -L http://nexus/repository/maven-snapshots/pacbio/sat/htslib/htslib-1.1-SNAPSHOT.tgz | tar zxf - -C build
+curl -s -L $NX3PBASEURL/samtools-1.3.1.tgz | tar zxf - -C build
+curl -s -L $NX3PBASEURL/ncurses-6.0.tgz | tar zxf - -C build
+
+type module >& /dev/null || . /mnt/software/Modules/current/init/bash
+module load gcc/4.9.2
+module load git/2.8.3
 module load ccache/3.2.3
-
-cat > pitchfork/settings.mk << EOF
-PREFIX            = $PWD/deployment
-DISTFILES         = $PWD/.distfiles
-CCACHE_DIR        = /mnt/secondary/Share/tmp/bamboo.mobs.ccachedir
-# from Herb
-HAVE_OPENSSL      = /mnt/software/o/openssl/1.0.2a
-HAVE_PYTHON       = /mnt/software/p/python/2.7.9/bin/python
-HAVE_BOOST        = /mnt/software/b/boost/1.58.0
-HAVE_ZLIB         = /mnt/software/z/zlib/1.2.8
-HAVE_SAMTOOLS     = /mnt/software/s/samtools/1.3.1mobs
-HAVE_NCURSES      = /mnt/software/n/ncurses/5.9
-# from MJ
-HAVE_HDF5         = /mnt/software/a/anaconda2/4.2.0
-HAVE_OPENBLAS     = /mnt/software/o/openblas/0.2.14
-HAVE_CMAKE        = /mnt/software/c/cmake/3.2.2/bin/cmake
-# Artifacts
-HAVE_PBBAM        = $HAVE_PBBAM
-HAVE_HTSLIB       = $HAVE_HTSLIB
-HAVE_BLASR_LIBCPP = $HAVE_BLASR_LIBCPP
-HAVE_BLASR        = $HAVE_BLASR
-#
-pbalign_REPO      = $PWD/repos/pbalign
-PacBioTestData_REPO = $PWD/repos/PacBioTestData
-EOF
-cd pitchfork
-cat settings.mk
-echo y|make _startover
-if [ -e ../tarballs/pipcache.tgz ]; then
-    tar zxf ../tarballs/pipcache.tgz -C ../
-fi
-make pbalign
-make cram nose PacBioTestData
+export CCACHE_DIR=/mnt/secondary/Share/tmp/bamboo.mobs.ccachedir
+$PIP install --user \
+  $NX3PBASEURL/pythonpkgs/pysam-0.9.1.4-cp27-cp27mu-linux_x86_64.whl \
+  $NX3PBASEURL/pythonpkgs/xmlbuilder-1.0-cp27-none-any.whl \
+  $NX3PBASEURL/pythonpkgs/avro-1.7.7-cp27-none-any.whl \
+  iso8601 \
+  $NX3PBASEURL/pythonpkgs/tabulate-0.7.5-cp27-none-any.whl \
+  cram
+ln -sfn ../data repos/PacBioTestData/pbtestdata/data
+$PIP install --user -e repos/PacBioTestData
+$PIP install --user -e repos/pbcore
+$PIP install --user -e repos/pbcommand
+$PIP install --user -e repos/pbalign
+rm -rf test-reports
+mkdir test-reports
+module load bamtools/2.4.1
+export LD_LIBRARY_PATH=$PWD/build/lib:/mnt/software/a/anaconda2/4.2.0/lib:$LD_LIBRARY_PATH
+cd repos/pbalign
+nosetests  \
+    --verbose --with-xunit \
+    --xunit-file=${bamboo_build_working_directory}/test-reports/pbalign_xunit.xml \
+    tests/unit/*.py || true
+cram \
+    --xunit-file=${bamboo_build_working_directory}/test-reports/pbalign_cramunit.xml \
+    tests/cram || true
+chmod +w -R .
