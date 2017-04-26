@@ -18,7 +18,7 @@ mkdir -p build/bin build/lib build/include build/share
 tar zxf $PBBAM -C build
 tar zxf $BLASR_LIBCPP -C build
 tar zxf $BLASR -C build
-curl -s -L http://nexus/repository/maven-snapshots/pacbio/sat/htslib/htslib-1.1-SNAPSHOT.tgz | tar zxf - -C build
+curl -s -L http://nexus/repository/maven-snapshots/pacbio/sat/htslib/htslib-1.1-SNAPSHOT45.tgz | tar zxf - -C build
 curl -s -L $NX3PBASEURL/samtools-1.3.1.tgz | tar zxf - -C build
 curl -s -L $NX3PBASEURL/ncurses-6.0.tgz | tar zxf - -C build
 
