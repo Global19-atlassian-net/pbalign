@@ -272,7 +272,7 @@ def constructOptionParser(parser, C=Constants, ccs_mode=False):
                         help=helpstr)
     tcp.add_float(C.MIN_ACCURACY_ID, "minAccuracy",
         default=DEFAULT_OPTIONS["minAccuracy"],
-        name="Min. concordance",
+        name="Minimum concordance",
         description="Minimum required alignment concordance")
 
     helpstr = "The minimum aligned read length of alignments that\n" + \
@@ -285,7 +285,7 @@ def constructOptionParser(parser, C=Constants, ccs_mode=False):
                         help=helpstr)
     tcp.add_int(C.MIN_LENGTH_ID, "minLength",
         default=DEFAULT_OPTIONS["minLength"],
-        name="Min. length",
+        name="Minimum length",
         description="Minimum required alignment length")
 
     #helpstr = "Specify a score function for evaluating alignments.\n"
