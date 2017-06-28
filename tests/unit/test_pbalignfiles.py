@@ -13,7 +13,7 @@ class Test_PbAlignFiles_Ecoli(unittest.TestCase):
     def setUp(self):
         self.rootDir = ROOT_DIR
         self.inputFileName    = path.join(self.rootDir, "data/ecoli.fasta")
-        self.referencePath    = "/pbi/analysis/smrtportal/beta/userdata//references/Ecoli_K12_MG1655"
+        self.referencePath    = "/pbi/analysis/smrtportal/beta/userdata/references/Ecoli_K12_MG1655"
         self.targetFileName   = path.join(self.referencePath,
                                           "sequence/Ecoli_K12_MG1655.fasta")
         self.sawriterFileName = self.targetFileName + ".sa"
