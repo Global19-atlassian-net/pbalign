@@ -88,10 +88,9 @@ class Test_fileutil(unittest.TestCase):
         self.assertTrue(filecmp.cmp(samFN, checkOutputFile(samFN)))
         self.assertTrue(filecmp.cmp(cmpFN, checkOutputFile(cmpFN)))
 
-
     def test_checkReferencePath(self):
         """Test checkReferencePath()."""
-        refDir = "/pbi/dept/secondary/siv/references/"
+        refDir = "/pbi/analysis/smrtportal/beta/userdata/references"
         refPath = path.join(refDir, "lambda")
         refPath, refFastaOut, refSaOut, isWithinRepository, annotation = \
             checkReferencePath(refPath)

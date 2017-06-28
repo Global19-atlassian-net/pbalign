@@ -3,7 +3,7 @@ Set up
 
 #Test pbalign with dataset in and out
   $ D=$TESTDATASETS/lambda/2372215/0007_tiny/Analysis_Results/m150404_101626_42267_c100807920800000001823174110291514_s1_p0.all.subreadset.xml
-  $ T=$REFDIR/lambda/reference.dataset.xml
+  $ T=$REFDIR/lambda/lambda.referenceset.xml
   $ O=$OUTDIR/tiny_bam.bam
   $ rm -f $O
   $ pbalign $D $T $O --algorithmOptions=" --holeNumbers 1-1000,30000-30500,60000-60600,100000-100500" >/dev/null
