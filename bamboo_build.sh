@@ -39,7 +39,7 @@ $PIP install --user -e repos/pbalign
 rm -rf test-reports
 mkdir test-reports
 module load bamtools/2.4.1
-export LD_LIBRARY_PATH=$PWD/build/lib:/mnt/software/a/anaconda2/4.2.0/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$PWD/build/lib:$LD_LIBRARY_PATH:/mnt/software/a/anaconda2/4.2.0/lib
 cd repos/pbalign
 nosetests  \
     --verbose --with-xunit \
