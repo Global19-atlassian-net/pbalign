@@ -5,6 +5,7 @@ test -d .pip/wheels && find .pip/wheels -type f ! -name '*none-any.whl' -print -
 
 BLASR=tarballs/blasr.tgz
 BLASR_LIBCPP=tarballs/blasr_libcpp.tgz
+PBBAM=tarballs/pbbam.tgz
 
 NX3PBASEURL=http://nexus/repository/unsupported/pitchfork/gcc-4.9.2
 export PATH=$PWD/build/bin:/mnt/software/a/anaconda2/4.2.0/bin:$PATH
@@ -14,7 +15,8 @@ PIP="pip --cache-dir=$bamboo_build_working_directory/.pip"
 
 mkdir -p build/bin build/lib build/include build/share
 tar zxf $BLASR_LIBCPP -C build
-tar zxf $BLASR -C build
+tar zxf $BLASR        -C build
+tar zxf $PBBAM        -C build
 curl -s -L $NX3PBASEURL/samtools-1.3.1.tgz | tar zxf - -C build
 curl -s -L $NX3PBASEURL/ncurses-6.0.tgz | tar zxf - -C build
 
@@ -22,7 +24,6 @@ type module >& /dev/null || . /mnt/software/Modules/current/init/bash
 module load gcc/4.9.2
 module load git/2.8.3
 module load hdf5-tools/1.8.16
-module load htslib/1.3.1
 $PIP install --user \
   $NX3PBASEURL/pythonpkgs/pysam-0.9.1.4-cp27-cp27mu-linux_x86_64.whl \
   $NX3PBASEURL/pythonpkgs/xmlbuilder-1.0-cp27-none-any.whl \
