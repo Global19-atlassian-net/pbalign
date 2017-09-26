@@ -21,9 +21,9 @@ curl -s -L $NX3PBASEURL/samtools-1.3.1.tgz | tar zxf - -C build
 curl -s -L $NX3PBASEURL/ncurses-6.0.tgz | tar zxf - -C build
 
 type module >& /dev/null || . /mnt/software/Modules/current/init/bash
-module load gcc/4.9.2
+module load gcc/6.4.0
 module load git/2.8.3
-module load hdf5-tools/1.8.16
+module load hdf5-tools/1.8.19
 $PIP install --user \
   $NX3PBASEURL/pythonpkgs/pysam-0.9.1.4-cp27-cp27mu-linux_x86_64.whl \
   $NX3PBASEURL/pythonpkgs/xmlbuilder-1.0-cp27-none-any.whl \
