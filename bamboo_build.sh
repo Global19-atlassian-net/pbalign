@@ -7,7 +7,7 @@ BLASR=tarballs/blasr.tgz
 BLASR_LIBCPP=tarballs/blasr_libcpp.tgz
 PBBAM=tarballs/pbbam.tgz
 
-NX3PBASEURL=http://nexus/repository/unsupported/pitchfork/gcc-4.9.2
+NX3PBASEURL=http://nexus/repository/unsupported/pitchfork/gcc-6.4.0
 export PATH=$PWD/build/bin:/mnt/software/a/anaconda2/4.2.0/bin:$PATH
 export PYTHONUSERBASE=$PWD/build
 export CFLAGS="-I/mnt/software/a/anaconda2/4.2.0/include"
