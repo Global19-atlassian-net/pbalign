@@ -3,30 +3,27 @@
 rm -rf prebuilts build
 test -d .pip/wheels && find .pip/wheels -type f ! -name '*none-any.whl' -print -delete || true
 
-PBBAM=`/bin/ls -t tarballs/pbbam*tgz|head -1`
-BLASR=`/bin/ls -t tarballs/blasr-*tgz|head -1`
-BLASR_LIBCPP=`/bin/ls -t tarballs/blasr_libcpp*tgz|head -1`
+BLASR=tarballs/blasr.tgz
+BLASR_LIBCPP=tarballs/blasr_libcpp.tgz
+PBBAM=tarballs/pbbam.tgz
 
-NX3PBASEURL=http://nexus/repository/unsupported/pitchfork/gcc-4.9.2
+NX3PBASEURL=http://nexus/repository/unsupported/pitchfork/gcc-6.4.0
 export PATH=$PWD/build/bin:/mnt/software/a/anaconda2/4.2.0/bin:$PATH
-#export LD_LIBRARY_PATH=$PWD/build/lib:$LD_LIBRARY_PATH
 export PYTHONUSERBASE=$PWD/build
 export CFLAGS="-I/mnt/software/a/anaconda2/4.2.0/include"
 PIP="pip --cache-dir=$bamboo_build_working_directory/.pip"
 
 mkdir -p build/bin build/lib build/include build/share
-tar zxf $PBBAM -C build
 tar zxf $BLASR_LIBCPP -C build
-tar zxf $BLASR -C build
-curl -s -L http://nexus/repository/maven-snapshots/pacbio/sat/htslib/htslib-1.1-SNAPSHOT45.tgz | tar zxf - -C build
+tar zxf $BLASR        -C build
+tar zxf $PBBAM        -C build
 curl -s -L $NX3PBASEURL/samtools-1.3.1.tgz | tar zxf - -C build
 curl -s -L $NX3PBASEURL/ncurses-6.0.tgz | tar zxf - -C build
 
 type module >& /dev/null || . /mnt/software/Modules/current/init/bash
-module load gcc/4.9.2
+module load gcc/6.4.0
 module load git/2.8.3
-module load ccache/3.2.3
-export CCACHE_DIR=/mnt/secondary/Share/tmp/bamboo.mobs.ccachedir
+module load hdf5-tools/1.8.19
 $PIP install --user \
   $NX3PBASEURL/pythonpkgs/pysam-0.9.1.4-cp27-cp27mu-linux_x86_64.whl \
   $NX3PBASEURL/pythonpkgs/xmlbuilder-1.0-cp27-none-any.whl \
@@ -39,10 +36,11 @@ $PIP install --user -e repos/PacBioTestData
 $PIP install --user -e repos/pbcore
 $PIP install --user -e repos/pbcommand
 $PIP install --user -e repos/pbalign
+
 rm -rf test-reports
 mkdir test-reports
 module load bamtools/2.4.1
-export LD_LIBRARY_PATH=$PWD/build/lib:/mnt/software/a/anaconda2/4.2.0/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$PWD/build/lib:$LD_LIBRARY_PATH:/mnt/software/a/anaconda2/4.2.0/lib
 cd repos/pbalign
 nosetests  \
     --verbose --with-xunit \
