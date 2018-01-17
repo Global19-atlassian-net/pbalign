@@ -3,6 +3,7 @@
 """
 Region table reader and writer.
 """
+from __future__ import print_function
 __all__ = ["RgnH5Reader",
            "RgnH5Writer"]
 import h5py
@@ -116,8 +117,8 @@ class RegionTable(object):
                 Region([self.holeNumber, HQ_REGION, newHQStart, newHQEnd, 0]))
         elif hqRegionsFound > 1:
             # If more than one HQ region exists, give a warning.
-            print "WARNING: Found more than one HQ region in ZMW %s." % \
-                self.holeNumber
+            print("WARNING: Found more than one HQ region in ZMW %s." % \
+                self.holeNumber)
 
     def __len__(self):
         return self.regions.__len__()

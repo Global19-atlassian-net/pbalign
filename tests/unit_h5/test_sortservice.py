@@ -1,4 +1,5 @@
 """Test pbalign.forquiverservice.sort."""
+from __future__ import print_function
 import unittest
 from os import path, remove
 from shutil import copyfile
@@ -29,7 +30,7 @@ class Test_SortService(unittest.TestCase):
 
     def test_run(self):
         """Test SortService.__init__()."""
-        print self.obj.cmd
+        print(self.obj.cmd)
         _output, errCode, _errMsg = self.obj.run()
         self.assertEqual(errCode, 0)
 

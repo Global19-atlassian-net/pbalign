@@ -4,6 +4,7 @@ Starts with the filtered_reads.fa file. Reads in the control.cmp.h5 and
 reference.cmp.h5, removing any subreads that map. Writes resulting fasta
 entries to stdout.
 """
+from __future__ import print_function
 
 import sys
 import logging
@@ -106,7 +107,7 @@ class ExtractRunner(PBToolRunner):
                    holeNumber in fastaReads[movie] and \
                    (srStart, srEnd) in fastaReads[movie][holeNumber]:
                     entry.COLUMNS=70
-                    print str(entry)
+                    print(str(entry))
 
     def run(self):
         """Executes the body of the script."""
