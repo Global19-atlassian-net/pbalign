@@ -1,4 +1,5 @@
 """Test pbalign.util/fileutil.py"""
+from __future__ import print_function
 
 import tempfile
 import unittest
@@ -139,7 +140,7 @@ class Test_fileutil(unittest.TestCase):
 
     def test_realpath(self):
         """Test real_upath and real_ppath."""
-        print real_upath("ref with space")
+        print(real_upath("ref with space"))
         self.assertTrue(real_upath("ref with space").endswith("ref\ with\ space"))
         self.assertTrue(real_upath("ref\ with\ space").endswith("ref\ with\ space"))
         self.assertTrue(real_ppath("ref with space").endswith("ref with space"))

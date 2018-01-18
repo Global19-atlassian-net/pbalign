@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
 USAGE = \
 """
 loadChemistry.py
@@ -26,7 +27,7 @@ def safeDelete(group, dsName):
 def writeTriples(movieInfoGroup, triplesByMovieName):
     movieNamesInCmpH5 = list(movieInfoGroup["Name"])
     if not set(movieNamesInCmpH5).issubset(set(triplesByMovieName.keys())):
-        raise ChemistryLoadingException, "Mismatch between movies in input.fofn and cmp.h5 movies"
+        raise ChemistryLoadingException("Mismatch between movies in input.fofn and cmp.h5 movies")
 
     safeDelete(movieInfoGroup, "BindingKit")
     safeDelete(movieInfoGroup, "SequencingKit")
@@ -51,7 +52,7 @@ def writeTriples(movieInfoGroup, triplesByMovieName):
 
 def main():
     if len(sys.argv) < 3:
-        print USAGE
+        print(USAGE)
         return -1
 
     inputFilenames = sys.argv[1:-1]
