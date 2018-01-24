@@ -58,19 +58,19 @@ class TestPbalignMinorVariants(pbcommand.testkit.PbTestApp):
                         type(ds_out).__name__)
 
 
-HAVE_BAMTOOLS = False
+HAVE_PBMERGE = False
 try:
     with tempfile.TemporaryFile() as O, \
          tempfile.TemporaryFile() as E:
-        assert subprocess.call(["bamtools", "--help"], stdout=O, stderr=E) == 0
+        assert subprocess.call(["pbmerge", "--help"], stdout=O, stderr=E) == 0
 except Exception as e:
     sys.stderr.write(str(e)+"\n")
-    sys.stderr.write("bamtools missing, skipping test\n")
+    sys.stderr.write("pbmerge missing, skipping test\n")
 else:
-    HAVE_BAMTOOLS = True
+    HAVE_PBMERGE = True
 
 
-@unittest.skipUnless(HAVE_BAMTOOLS, "bamtools not installed")
+@unittest.skipUnless(HAVE_PBMERGE, "pbmerge not installed")
 class TestConsolidateBam(pbcommand.testkit.PbTestApp):
     DRIVER_BASE = "python -m pbalign.tasks.consolidate_alignments"
     INPUT_FILES = [pbtestdata.get_file("aligned-ds-2")]
@@ -79,7 +79,7 @@ class TestConsolidateBam(pbcommand.testkit.PbTestApp):
     }
 
     def run_after(self, rtc, output_dir):
-        with AlignmentSet(rtc.task.output_files[0]) as f:
+        with openDataSet(rtc.task.output_files[0]) as f:
             f.assertIndexed()
             self.assertEqual(len(f.toExternalFiles()), 1)
             # test for bug 33778
@@ -89,7 +89,7 @@ class TestConsolidateBam(pbcommand.testkit.PbTestApp):
             self.assertEqual(len(qnames), len(f))
 
 
-@unittest.skipUnless(HAVE_BAMTOOLS, "bamtools not installed")
+@unittest.skipUnless(HAVE_PBMERGE, "pbmerge not installed")
 class TestConsolidateBamDisabled(TestConsolidateBam):
     TASK_OPTIONS = {
         "pbalign.task_options.consolidate_aligned_bam": False,
@@ -98,6 +98,12 @@ class TestConsolidateBamDisabled(TestConsolidateBam):
     def run_after(self, rtc, output_dir):
         with AlignmentSet(rtc.task.output_files[0]) as f:
             self.assertEqual(len(f.toExternalFiles()), 2)
+
+
+@unittest.skipUnless(HAVE_PBMERGE, "pbmerge not installed")
+class TestConsolidateBamCCS(TestConsolidateBam):
+    DRIVER_BASE = "python -m pbalign.tasks.consolidate_alignments_ccs"
+    INPUT_FILES = [pbtestdata.get_file("rsii-ccs-aligned")]
 
 
 if __name__ == "__main__":
