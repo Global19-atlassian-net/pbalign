@@ -6,6 +6,7 @@ import os.path
 import sys
 
 import pbcommand.testkit
+from pbcommand.models import DataStore
 from pbcore.io import AlignmentSet, ConsensusAlignmentSet, openDataSet
 
 import pbtestdata
@@ -87,6 +88,8 @@ class TestConsolidateBam(pbcommand.testkit.PbTestApp):
             for rec in f:
                 qnames.add(rec.qName)
             self.assertEqual(len(qnames), len(f))
+        ds = DataStore.load_from_json(rtc.task.output_files[1])
+        self.assertEqual(len(ds.files), 2)
 
 
 @unittest.skipUnless(HAVE_PBMERGE, "pbmerge not installed")

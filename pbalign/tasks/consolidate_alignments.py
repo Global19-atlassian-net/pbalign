@@ -24,6 +24,10 @@ class Constants(object):
     DRIVER = "python -m pbalign.tasks.consolidate_alignments --resolved-tool-contract "
     CONSOLIDATE_ID = "pbalign.task_options.consolidate_aligned_bam"
     N_FILES_ID = "pbalign.task_options.consolidate_n_files"
+    BAI_FILE_TYPES = {
+        FileTypes.BAMBAI.file_type_id,
+        FileTypes.I_BAI.file_type_id
+    }
 
 
 def get_parser(tool_id=Constants.TOOL_ID,
@@ -69,29 +73,30 @@ def run_consolidate(dataset_file, output_file, datastore_file,
                     consolidate, n_files, task_id=Constants.TOOL_ID):
     datastore_files = []
     with openDataSet(dataset_file) as ds_in:
-        # XXX shouldn't the file count check be done elsewhere?
-        if consolidate and len(ds_in.toExternalFiles()) != 1:
-            new_resource_file = op.splitext(output_file)[0] + ".bam" # .fasta?
-            ds_in.consolidate(new_resource_file, numFiles=n_files)
+        if consolidate:
+            if len(ds_in.toExternalFiles()) != 1:
+                new_resource_file = op.splitext(output_file)[0] + ".bam"
+                ds_in.consolidate(new_resource_file, numFiles=n_files)
+            # always display the BAM/BAI if consolidation is enabled
             # XXX there is no uniqueness constraint on the sourceId, but this
             # seems sloppy nonetheless - unfortunately I don't know how else to
             # make view rule whitelisting work
             for ext_res in ds_in.externalResources:
-                if ext_res.metaType == FileTypes.BAM.file_type_id:
+                if ext_res.resourceId.endswith(".bam"):
                     ds_file = DataStoreFile(
                         ext_res.uniqueId,
                         task_id + "-out-2",
-                        FileTypes.BAM,
+                        ext_res.metaType,
                         ext_res.bam)
-                    datastore_file.append(ds_file)
+                    datastore_files.append(ds_file)
                     for index in ext_res.indices:
-                        if index.metaType == FileTypes.BAMBAI.file_type_id:
+                        if index.metaType in Constants.BAI_FILE_TYPES:
                             ds_file = DataStoreFile(
                                 index.uniqueId,
                                 task_id + "-out-3",
-                                FileTypes.BAM_BAI,
+                                index.metaType,
                                 index.resourceId)
-                            datastore_file.append(ds_file)
+                            datastore_files.append(ds_file)
         ds_in.newUuid()
         ds_in.write(output_file)
     datastore = DataStore(datastore_files)
