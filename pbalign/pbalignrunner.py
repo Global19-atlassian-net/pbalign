@@ -45,6 +45,7 @@ import logging
 import time
 import sys
 import shutil
+from os import readlink
 
 from pbcommand.cli import pbparser_runner
 from pbcommand.utils import setup_log
@@ -188,7 +189,7 @@ class PBAlignRunner(PBToolRunner):
             logging.info("OutputService: Genearte the output SAM file.")
             logging.debug("OutputService: Move %s as %s", inSam, outFile)
             try:
-                shutil.move(real_ppath(inSam), real_ppath(outFile))
+                shutil.move(readlink(real_ppath(inSam)), real_ppath(outFile))
             except shutil.Error as e:
                 output, errCode, errMsg = "", 1, "Exited with error: " + str(e)
                 logging.error(errMsg)
