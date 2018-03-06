@@ -5,6 +5,7 @@ import tempfile
 import unittest
 import filecmp
 import shutil
+import os
 from os import path
 
 from pbcore.io import DataSet
@@ -137,6 +138,17 @@ class Test_fileutil(unittest.TestCase):
     def test_isExist(self):
         """Test isExist(ff)."""
         self.assertFalse(isExist(None))
+        foo = os.path.join(self.outDir, 'foo')
+        self.assertFalse(isExist(foo))
+        open(foo, 'w').write('hello')
+        assert os.path.exists(foo)
+        self.assertTrue(isExist(foo))
+        PATH = os.environ['PATH']
+        os.environ['PATH'] = ''
+        self.assertTrue(isExist(foo)) # test regression for missing 'ls'
+        os.unlink(foo)
+        self.assertFalse(isExist(foo))
+        os.environ['PATH'] = PATH
 
     def test_realpath(self):
         """Test real_upath and real_ppath."""
