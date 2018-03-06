@@ -35,6 +35,7 @@
 """This scripts defines functions for handling input and output files."""
 
 from __future__ import absolute_import
+import os
 import os.path as op
 import logging
 from xml.etree import ElementTree as ET
@@ -96,13 +97,22 @@ def real_upath(fn):
 
 def isExist(ff):
     """Return whether a file or a dir ff exists or not.
-    Call ls instead of python os.path.exists to eliminate NFS errors.
+    Call listdir first to eliminate NFS errors.
     """
-    if ff is None:
+    if not ff:
         return False
-    cmd = "ls %s" % real_upath(ff)
-    _output, errCode, _errMsg = backticks(cmd)
-    return (errCode == 0)
+    try:
+        # Might sync cache for some users.
+        os.stat(ff)
+    except Exception:
+        pass
+    try:
+        # Might sync cache for some users.
+        d = os.path.normpath(os.path.dirname(ff))
+        os.listdir(d)
+    except Exception:
+        pass
+    return os.path.exists(ff) # Broken symlink is also False.
 
 
 def isValidInputFormat(ff):
