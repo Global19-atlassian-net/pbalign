@@ -1,3 +1,4 @@
+from __future__ import print_function
 
 import tempfile
 from argparse import *
@@ -107,10 +108,10 @@ class Test_Options(unittest.TestCase):
             '--algorithmOptions=%s' % algo1,
             '--algorithmOptions=%s' % algo2,
         ] + self.infiles + ["outfile"]
-        print argumentList
+        print(argumentList)
         options = parseOptions(argumentList)
         # Both algo1 and algo2 should be in algorithmOptions.
-        print options.algorithmOptions
+        print(options.algorithmOptions)
         #self.assertTrue(algo1 in options.algorithmOptions)
         #self.assertTrue(algo2 in options.algorithmOptions)
 
@@ -119,10 +120,10 @@ class Test_Options(unittest.TestCase):
         writeConfigFile(self.configFile3, [configOptions])
 
         argumentList.append("--configFile={0}".format(self.configFile3))
-        print argumentList
+        print(argumentList)
         options = parseOptions(argumentList)
         # Make sure algo3 have been overwritten.
-        print options.algorithmOptions
+        print(options.algorithmOptions)
         self.assertTrue(algo1 in options.algorithmOptions)
         self.assertTrue(algo2 in options.algorithmOptions)
         self.assertFalse(algo3 in options.algorithmOptions)
