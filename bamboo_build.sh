@@ -3,9 +3,6 @@
 rm -rf prebuilts build
 test -d .pip/wheels && find .pip/wheels -type f ! -name '*none-any.whl' -print -delete || true
 
-BLASR=tarballs/blasr.tgz
-BLASR_LIBCPP=tarballs/blasr_libcpp.tgz
-PBBAM=tarballs/pbbam.tgz
 
 NX3PBASEURL=http://nexus/repository/unsupported/pitchfork/gcc-6.4.0
 export PATH=$PWD/build/bin:/mnt/software/a/anaconda2/4.2.0/bin:$PATH
@@ -14,9 +11,8 @@ export CFLAGS="-I/mnt/software/a/anaconda2/4.2.0/include"
 PIP="pip --cache-dir=$bamboo_build_working_directory/.pip"
 
 mkdir -p build/bin build/lib build/include build/share
-tar zxf $BLASR_LIBCPP -C build
-tar zxf $BLASR        -C build
-tar zxf $PBBAM        -C build
+/bin/ls -t tarballs/blasr-*.tgz | head -1 | xargs -r -n 1 cat | tar zxv --strip-components 2 -C build
+/bin/ls -t tarballs/pbbam-*.tgz | head -1 | xargs -r -n 1 cat | tar zxv --strip-components 3 -C build
 curl -s -L $NX3PBASEURL/samtools-1.3.1.tgz | tar zxf - -C build
 curl -s -L $NX3PBASEURL/ncurses-6.0.tgz | tar zxf - -C build
 
