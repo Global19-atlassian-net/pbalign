@@ -14,7 +14,6 @@ ${PIP} install --user \
   cram \
   nose
 
-ln -sfn ../data repos/PacBioTestData/pbtestdata/data
 ${PIP} install --user -e repos/PacBioTestData
 ${PIP} install --user -e repos/pbcore
 ${PIP} install --user -e repos/pbcommand
