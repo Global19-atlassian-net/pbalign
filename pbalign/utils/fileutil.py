@@ -43,15 +43,21 @@ from pbcore.util.Process import backticks
 from pbcore.io import DataSet, ReferenceSet
 
 
-def enum(**enums):
-    """Simulate enum."""
-    return type('Enum', (), enums)
-
-FILE_FORMATS = enum(FASTA="FASTA", PLS="PLS_H5", PLX="PLX_H5",
-                    BAS="BAS_H5", BAX="BAX_H5", FOFN="FOFN",
-                    SAM="SAM", CMP="CMP_H5", RGN="RGN_H5",
-                    SA="SA", XML="XML", UNKNOWN="UNKNOWN",
-                    CCS="CCS_H5", BAM="BAM")
+class FILE_FORMATS(object):
+    FASTA = "FASTA"
+    PLS = "PLS_H5"
+    PLX = "PLX_H5"
+    BAS = "BAS_H5"
+    BAX = "BAX_H5"
+    FOFN = "FOFN"
+    SAM = "SAM"
+    CMP = "CMP_H5"
+    RGN = "RGN_H5"
+    SA = "SA"
+    XML = "XML"
+    UNKNOWN = "UNKNOWN"
+    CCS = "CCS_H5"
+    BAM = "BAM"
 
 VALID_INPUT_FORMATS = (FILE_FORMATS.FASTA, FILE_FORMATS.PLS,
                        FILE_FORMATS.PLX,   FILE_FORMATS.BAS,

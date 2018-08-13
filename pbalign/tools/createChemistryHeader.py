@@ -185,7 +185,7 @@ def main():
     else:
         setup_log(log, level=logging.INFO)
 
-    input_file = pysam.Samfile(args.input_alignment_file, 'r')
+    input_file = pysam.Samfile(args.input_alignment_file, 'r') # pylint: disable=no-member
     input_header = input_file.header
     log.debug("Read header from {f}.".format(f=input_file.filename))
 
@@ -195,10 +195,10 @@ def main():
     new_header = extend_header(input_header, chemistry_rgds_strings)
 
     if args.output_header_file.endswith('.bam'):
-        output_file = pysam.Samfile(args.output_header_file, 'wb',
+        output_file = pysam.Samfile(args.output_header_file, 'wb', # pylint: disable=no-member
                                     header=new_header)
     elif args.output_header_file.endswith('.sam'):
-        output_file = pysam.Samfile(args.output_header_file, 'wh',
+        output_file = pysam.Samfile(args.output_header_file, 'wh', # pylint: disable=no-member
                                     header=new_header)
 
     output_file.close()
