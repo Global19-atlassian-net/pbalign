@@ -15,7 +15,10 @@ install:
 develop:
 	python setup.py develop
 
-test:
+pylint:
+	pylint --errors-only pbalign
+
+test: pylint
 	# Unit tests
 	#find tests/unit -name "*.py" | xargs nosetests
 	nosetests --verbose tests/unit/*.py

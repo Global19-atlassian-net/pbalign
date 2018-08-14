@@ -9,6 +9,7 @@ rm -rf test-reports
 mkdir test-reports
 
 cd repos/pbalign
+pylint --errors-only pbalign
 nosetests  \
   --verbose --with-xunit \
   --xunit-file=${bamboo_build_working_directory}/test-reports/pbalign_xunit.xml \

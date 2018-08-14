@@ -9,8 +9,8 @@ __all__ = ["RgnH5Reader",
 import h5py
 import os.path as op
 import numpy as np
-from pbcore.io.BasH5IO import ADAPTER_REGION, INSERT_REGION, HQ_REGION, \
-    REGION_TABLE_DTYPE, toRecArray, _makeRegionTableIndex
+from pbcore.io.BasH5IO import (ADAPTER_REGION, INSERT_REGION) #pylint: disable=no-name-in-module
+from pbcore.io.BasH5IO import (HQ_REGION, REGION_TABLE_DTYPE, toRecArray, _makeRegionTableIndex)
 
 __version__ = "1.0"
 REGION_COLUMN_NAMES = (
