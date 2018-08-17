@@ -3,3 +3,4 @@
 build/
 dist/
 pbalign.egg-info/
+.DS_Store

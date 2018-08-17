@@ -21,7 +21,7 @@ pylint:
 test: pylint
 	# Unit tests
 	#find tests/unit -name "*.py" | xargs nosetests
-	nosetests --verbose tests/unit/*.py
+	python setup.py test
 	# End-to-end tests
 	@echo pbalign cram tests require blasr installed.
 	find tests/cram -name "*.t" | xargs cram 
