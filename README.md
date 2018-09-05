@@ -1,6 +1,18 @@
-pbalign maps PacBio reads to reference sequences.
+<h1 align="center"><img src="http://www.pacb.com/wp-content/themes/pacific-biosciences/img/pacific-biosciences-logo-mobile.svg"/></h1>
+<h1 align="center">pbalign</h1>
+<p align="center">A python wrapper to easily align PacBio reads to reference sequences</p>
 
-Want to know how to install and run pbalign?
+***
+
+## Availability
+Latest version can be installed via bioconda package `pbalign`.
+
+Please refer to our [official pbbioconda page](https://github.com/PacificBiosciences/pbbioconda)
+for information on Installation, Support, License, Copyright, and Disclaimer.
+
+
+## How To?
+Want to know how to manually install or run pbalign?
 
 Please refer to https://github.com/PacificBiosciences/pbalign/blob/master/doc/howto.rst
 
