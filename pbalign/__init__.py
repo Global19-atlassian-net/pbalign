@@ -57,7 +57,7 @@ def get_changelist():
     return _get_changelist(_changelist)
 
 
-VERSION = (0, 3, 1)
+VERSION = (0, 4, 1)
 
 
 def get_version():

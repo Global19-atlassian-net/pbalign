@@ -14,7 +14,7 @@ setup(
     install_requires=[
         'pbcore >= 0.8.5',
         'pbcommand >= 0.2.0',
-        'pysam',
+        'pysam >= 0.15.1',
     ],
     test_requires=[
         'nose',
