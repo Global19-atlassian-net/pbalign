@@ -56,11 +56,8 @@ def get_changelist():
     """Return changelist"""
     return _get_changelist(_changelist)
 
-def get_dir():
-    """Return lib directory."""
-    return op.dirname(op.realpath(__file__))
 
-VERSION = (0, 3, 1)
+VERSION = (0, 4, 1)
 
 
 def get_version():

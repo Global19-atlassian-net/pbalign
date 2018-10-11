@@ -13,7 +13,6 @@ module purge
 module load gcc
 module load git
 module load samtools
-module load bamtools/2.4.1
 
 module load python/2
 
