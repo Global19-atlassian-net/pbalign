@@ -92,12 +92,13 @@ class BamPostService(Service):
         except Exception:
             pass
         _stvmajor = int(_samtoolsversion[0])
+        sort_nproc = max(1, nproc/4)
         if _stvmajor >= 1:
-            cmd = 'samtools sort --threads {t} -m 4G -o {sortedBamFile} {unsortedBamFile}'.format(
-                t=nproc, sortedBamFile=sortedBamFile, unsortedBamFile=unsortedBamFile)
+            cmd = 'samtools sort --threads {t} -m 768M -o {sortedBamFile} {unsortedBamFile}'.format(
+                t=sort_nproc, sortedBamFile=sortedBamFile, unsortedBamFile=unsortedBamFile)
         else:
-            cmd = 'samtools sort --threads {t} -m 4G {unsortedBamFile} {prefix}'.format(
-                t=nproc, unsortedBamFile=unsortedBamFile, prefix=sortedPrefix)
+            cmd = 'samtools sort --threads {t} -m 768M {unsortedBamFile} {prefix}'.format(
+                t=sort_nproc, unsortedBamFile=unsortedBamFile, prefix=sortedPrefix)
         Execute(self.name, cmd)
 
     def _makebai(self, sortedBamFile, outBaiFile):
