@@ -92,7 +92,7 @@ class BamPostService(Service):
         except Exception:
             pass
         _stvmajor = int(_samtoolsversion[0])
-        sort_nproc = max(1, nproc/4)
+        sort_nproc = max(1, nproc//4)
         if _stvmajor >= 1:
             cmd = 'samtools sort --threads {t} -m 768M -o {sortedBamFile} {unsortedBamFile}'.format(
                 t=sort_nproc, sortedBamFile=sortedBamFile, unsortedBamFile=unsortedBamFile)
