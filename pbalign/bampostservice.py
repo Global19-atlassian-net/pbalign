@@ -37,7 +37,7 @@
 
 # Author: Yuan Li
 
-from __future__ import absolute_import
+from __future__ import absolute_import, division, print_function
 import logging
 from pbalign.service import Service
 from pbalign.utils.progutil import Execute
