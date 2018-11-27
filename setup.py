@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pbalign',
-    version='0.3.1',
+    version='0.3.2',
     author='Pacific Biosciences',
     author_email='devnet@pacificbiosciences.com',
     license='BSD-3-Clause-Clear',

@@ -13,7 +13,7 @@ from pbcore.io import CmpH5Reader, EmptyCmpH5Error
 import traceback
 from pbalign.utils.RgnH5IO import RgnH5Reader, RgnH5Writer
 
-__VERSION__ = "0.3"
+__VERSION__ = "0.3.2"
 
 
 class AlignedReadsMasker(object):
