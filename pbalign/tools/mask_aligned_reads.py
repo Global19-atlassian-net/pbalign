@@ -13,7 +13,7 @@ from pbcore.io import CmpH5Reader, EmptyCmpH5Error
 import traceback
 from pbalign.utils.RgnH5IO import RgnH5Reader, RgnH5Writer
 
-__VERSION__ = "0.3"
+__VERSION__ = "0.3.2"
 
 
 class AlignedReadsMasker(object):
@@ -187,7 +187,7 @@ def main():
 
     rcode = run(args.inCmpFile, args.inRgnFofn, args.outRgnFofn)
     logging.info("Exiting {f} {v} with rturn code {r}.".format(
-                 r=rcode, f=os.path.basename(__file__), v=__VERSION__))
+                 r=rcode, f="mask_aligned_reads.py", v=__VERSION__))
     return rcode
 
 if __name__ == "__main__":
