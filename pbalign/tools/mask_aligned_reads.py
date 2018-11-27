@@ -187,7 +187,7 @@ def main():
 
     rcode = run(args.inCmpFile, args.inRgnFofn, args.outRgnFofn)
     logging.info("Exiting {f} {v} with rturn code {r}.".format(
-                 r=rcode, f=os.path.basename(__file__), v=__VERSION__))
+                 r=rcode, f="mask_aligned_reads.py", v=__VERSION__))
     return rcode
 
 if __name__ == "__main__":

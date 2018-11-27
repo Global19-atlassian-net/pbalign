@@ -111,7 +111,7 @@ class ExtractRunner(PBToolRunner):
 
     def run(self):
         """Executes the body of the script."""
-        logging.info("Running {f} v{v}.".format(f=op.basename(__file__),
+        logging.info("Running {f} v{v}.".format(f="extractUnmappedSubreads.py",
                                                 v=self.getVersion))
         args = self.args
         logging.info("Extracting unmapped reads from a fasta file.")

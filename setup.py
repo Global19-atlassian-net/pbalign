@@ -10,7 +10,6 @@ setup(
     author_email='devnet@pacificbiosciences.com',
     license='LICENSE.txt',
     packages=find_packages(),
-    zip_safe=False,
     install_requires=[
         'pbcore >= 0.8.5',
         'pbcommand >= 0.2.0',
